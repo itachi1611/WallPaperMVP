@@ -2,7 +2,10 @@ package com.shinro.wallpaper.ui.photo;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -11,6 +14,7 @@ import com.shinro.wallpaper.adapters.FlickrFavoritesImageStaggeredRecycleViewAda
 import com.shinro.wallpaper.bases.BaseActivity;
 import com.shinro.wallpaper.models.Photo;
 import com.shinro.wallpaper.ultis.AppLogger;
+import com.shinro.wallpaper.ultis.RecyclerViewUtils.CustomSnapHelper;
 import com.shinro.wallpaper.ultis.RecyclerViewUtils.EndlessRecyclerViewScrollListener;
 
 import java.util.ArrayList;
@@ -75,6 +79,11 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
     private void initRecyclerView() {
         layoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, 1);
         rvImageList.setLayoutManager(layoutManager);
+        rvImageList.setItemAnimator(new DefaultItemAnimator());
+        rvImageList.addItemDecoration(new DividerItemDecoration(PhotoActivity.this, DividerItemDecoration.HORIZONTAL));
+        rvImageList.setHasFixedSize(true);
+        SnapHelper snapHelper = new CustomSnapHelper();
+        snapHelper.attachToRecyclerView(rvImageList);
     }
 
     private void onFetchFlickrImageData(int p, int action) {

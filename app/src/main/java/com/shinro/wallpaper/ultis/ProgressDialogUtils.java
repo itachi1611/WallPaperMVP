@@ -17,7 +17,7 @@ public class ProgressDialogUtils {
         progressDialog.setMessage(context.getResources().getString(R.string.progress_dialog_message));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         if(progressDialog.getWindow() != null) {
-            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         }
         progressDialog.setContentView(R.layout.layout_progress_dialog);
         progressDialog.setIndeterminate(true);
