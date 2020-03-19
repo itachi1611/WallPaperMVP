@@ -80,7 +80,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         layoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, 1);
         rvImageList.setLayoutManager(layoutManager);
         rvImageList.setItemAnimator(new DefaultItemAnimator());
-        rvImageList.addItemDecoration(new DividerItemDecoration(PhotoActivity.this, DividerItemDecoration.HORIZONTAL));
+        //rvImageList.addItemDecoration(new DividerItemDecoration(PhotoActivity.this, DividerItemDecoration.HORIZONTAL));
         rvImageList.setHasFixedSize(true);
         SnapHelper snapHelper = new CustomSnapHelper();
         snapHelper.attachToRecyclerView(rvImageList);
@@ -126,6 +126,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
             onHideLoading();
             photos.addAll(mPhotos);
             swipeContainer.setRefreshing(false);
+            rvImageList.getRecycledViewPool().clear();
             adapter.notifyDataSetChanged();
         }
     }

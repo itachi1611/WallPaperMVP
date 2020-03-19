@@ -58,7 +58,7 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
             image_url = photo.getUrlL();
         }
 
-        ImageViewUtils.loadImage(mContext, holder.imageViewWidget, image_url, Priority.HIGH);
+        ImageViewUtils.loadImage(mContext, holder.imageViewWidget, image_url, Priority.NORMAL);
 
         holder.tvView.setText(photo.getViews().trim());
 
