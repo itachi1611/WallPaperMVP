@@ -8,4 +8,8 @@
     <string name="image_description" />
     <string name="view_description">TextView</string>
 
+    <!--Progress Dialog-->
+    <string name="progress_dialog_title">Waiting...</string>
+    <string name="progress_dialog_message">Loading image from network !</string>
+
 </resources>

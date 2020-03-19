@@ -13,7 +13,9 @@ public class ProgressDialogUtils {
 
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
+        progressDialog.setTitle(context.getResources().getString(R.string.progress_dialog_title));
+        progressDialog.setMessage(context.getResources().getString(R.string.progress_dialog_message));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         if(progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -21,6 +23,9 @@ public class ProgressDialogUtils {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
         progressDialog.setCanceledOnTouchOutside(false);
+        //progressDialog.setMax(100);
+        //progressDialog.setProgress(0);
+        progressDialog.show();
         return progressDialog;
     }
 

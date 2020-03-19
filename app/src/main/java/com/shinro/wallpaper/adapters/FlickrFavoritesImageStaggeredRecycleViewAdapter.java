@@ -52,7 +52,7 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
         Photo photo = mImageLists.get(position);
         String image_url;
 
-        if(!photo.getUrlO().isEmpty() && photo.getUrlO() != null) {
+        if(photo.getUrlO() != null) {
             image_url = photo.getUrlO();
         } else {
             image_url = photo.getUrlL();
@@ -73,22 +73,22 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
         setDiffRatio(photo, holder.constrainContainer, holder.imageViewWidget);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull FlickrFavoritesImageViewHolder holder, int position, @NonNull List<Object> payloads) {
-        String id;
-
-        if(payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads);
-            return;
-        } else {
-            Bundle bundle = (Bundle) payloads.get(0);
-            for(String k : bundle.keySet()) {
-                if(k.equals("id")) {
-                    id = bundle.getString(k);
-                }
-            }
-        }
-    }
+//    @Override
+//    public void onBindViewHolder(@NonNull FlickrFavoritesImageViewHolder holder, int position, @NonNull List<Object> payloads) {
+//        String id;
+//
+//        if(payloads.isEmpty()) {
+//            super.onBindViewHolder(holder, position, payloads);
+//            return;
+//        } else {
+//            Bundle bundle = (Bundle) payloads.get(0);
+//            for(String k : bundle.keySet()) {
+//                if(k.equals("id")) {
+//                    id = bundle.getString(k);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public int getItemCount() {
@@ -101,7 +101,7 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
 
     private void setDiffRatio(Photo photo, ConstraintLayout constraintLayout, ImageView imageView) {
         int width, height;
-        if(!photo.getUrlO().isEmpty() && photo.getUrlO() != null) {
+        if(photo.getUrlO() != null) {
             width = Integer.parseInt(photo.getWidthO());
             height = Integer.parseInt(photo.getHeightO());
         } else {

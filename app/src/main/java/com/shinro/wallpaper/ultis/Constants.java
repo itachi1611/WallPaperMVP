@@ -2,9 +2,12 @@ package com.shinro.wallpaper.ultis;
 
 import com.shinro.wallpaper.BuildConfig;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class Constants {
 
-    public static final int SPLASH_TIME_OUT  = 3000;
+    public static final int SPLASH_TIME_OUT  = 1500;
 
     //Database and Preference
     public static final String PREF_NAME = "shinrojp_pref";
@@ -16,14 +19,15 @@ public class Constants {
     public static final String DB_NAME = "shinrojp";
 
     //Retrofit
-    public static final String BASE_URL = "https://www.flickr.com";
+    public static final String BASE_URL = "https://www.flickr.com/";
 
     //Flickr
     public static final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
-    public static final String FLICKR_USER_ID = BuildConfig.FLICKR_USER_ID;
-    public static final int FLICKR_NO_JSON_CALLBACK = 1;
+    public static String FLICKR_USER_ID;
+    public static final String FLICKR_NO_JSON_CALLBACK = "1";
     public static final String FLICKR_METHOD = "flickr.favorites.getList";
     public static final String FLICKR_OPTION = "views, media, path_alias, url_sq, url_t, url_s, url_q, url_m, url_n, url_z, url_c, url_l, url_o";
+    public static final String FLICKR_PER_PAGE = "15";
     public static final String FLICKR_FORMAT = "json";
 
     //Api Option
@@ -39,5 +43,15 @@ public class Constants {
     public static final int SWIPE_MAX_OFF_PATH = 250;
 
     public static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+    public static final int NUM_COLUMNS = 2;
+
+    static {
+        try {
+            FLICKR_USER_ID = URLDecoder.decode(BuildConfig.FLICKR_USER_ID, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            AppLogger.e(e);
+        }
+    }
 
 }
