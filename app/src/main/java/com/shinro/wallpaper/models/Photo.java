@@ -4,7 +4,9 @@ package com.shinro.wallpaper.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Photo implements Comparable{
+import java.io.Serializable;
+
+public class Photo implements Comparable, Serializable {
 
     @SerializedName("id")
     @Expose

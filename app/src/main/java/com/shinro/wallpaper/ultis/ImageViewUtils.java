@@ -12,11 +12,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.shinro.wallpaper.R;
 
 public class ImageViewUtils {
 
+    /**
+     * Load Avatar
+     * @param context
+     * @param view
+     * @param sourceImage
+     * @param hasDefaultImageAvatar
+     * @param priority
+     */
     public static void loadAvatar(Context context, ImageView view, String sourceImage, boolean hasDefaultImageAvatar, Priority priority) {
         int defaultResourceImageAvatar = 0;
         try {
@@ -44,19 +55,23 @@ public class ImageViewUtils {
         }
     }
 
-    public static void loadImage(Context context, ImageView view, String sourceImage, Priority priority) {
-        int defaultResourceImageAvatar = 0;
+    public static void loadImage(Context context, ImageView imageView, String sourceImage, Priority priority) {
+        int defaultResourceImageAvatar = R.drawable.ic_no_image;
+        RequestOptions options = new RequestOptions();
+        options.placeholder(defaultResourceImageAvatar);
+        options.error(defaultResourceImageAvatar);
         try {
             Glide.with(context)
-                .load(sourceImage)
-                .priority(priority)
-                .placeholder(defaultResourceImageAvatar)
-                .error(defaultResourceImageAvatar)
-                .into(view);
+                    .load(sourceImage)
+                    .priority(priority)
+                    .apply(options)
+                    .transition(new DrawableTransitionOptions().crossFade(300))
+                    .skipMemoryCache(false)
+                    .into(imageView);
         } catch (Exception e) {
             AppLogger.e(e);
             try {
-                Glide.with(context).load(defaultResourceImageAvatar).priority(priority).into(view);
+                Glide.with(context).load(defaultResourceImageAvatar).priority(priority).into(imageView);
             } catch (Exception e1) {
                 AppLogger.e(e1);
             }
@@ -64,13 +79,17 @@ public class ImageViewUtils {
     }
 
     public static void loadImage(View view, ImageView imageView, String sourceImage, Priority priority) {
-        int defaultResourceImageAvatar = 0;
+        int defaultResourceImageAvatar = R.drawable.ic_no_image;
+        RequestOptions options = new RequestOptions();
+        options.placeholder(defaultResourceImageAvatar);
+        options.error(defaultResourceImageAvatar);
         try {
             Glide.with(view)
                     .load(sourceImage)
                     .priority(priority)
-                    .placeholder(defaultResourceImageAvatar)
-                    .error(defaultResourceImageAvatar)
+                    .apply(options)
+                    .transition(new DrawableTransitionOptions().crossFade(300))
+                    .skipMemoryCache(false)
                     .into(imageView);
         } catch (Exception e) {
             AppLogger.e(e);

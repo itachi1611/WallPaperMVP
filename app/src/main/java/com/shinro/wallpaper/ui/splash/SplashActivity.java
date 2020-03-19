@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.shinro.wallpaper.R;
+import com.shinro.wallpaper.bases.BaseActivity;
 import com.shinro.wallpaper.bases.BaseActivityFullScreen;
 import com.shinro.wallpaper.ui.photo.PhotoActivity;
 
 import static com.shinro.wallpaper.ultis.Constants.SPLASH_TIME_OUT;
 
-public class SplashActivity extends BaseActivityFullScreen implements SplashContract.View { //TODO: DON'T FORGET TO ADD THIS ACTIVITY TO THE MANIFEST FILE!!!
+public class SplashActivity extends BaseActivity implements SplashContract.View { //TODO: DON'T FORGET TO ADD THIS ACTIVITY TO THE MANIFEST FILE!!!
 
     private SplashContract.Presenter mPresenter = new SplashPresenter(this);    // Presenter
 

@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import com.shinro.wallpaper.models.Photo;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FlickrFavoriteDiffCallBack extends DiffUtil.Callback {
 
-    ArrayList<Photo> newList;
-    ArrayList<Photo> oldList;
+    List<Photo> newList;
+    List<Photo> oldList;
 
-    public FlickrFavoriteDiffCallBack(ArrayList<Photo> newList, ArrayList<Photo> oldList) {
+    public FlickrFavoriteDiffCallBack(List<Photo> newList, List<Photo> oldList) {
         this.newList = newList;
         this.oldList = oldList;
     }
@@ -46,7 +46,7 @@ public class FlickrFavoriteDiffCallBack extends DiffUtil.Callback {
         Photo newPhoto = newList.get(newItemPosition);
         Photo oldPhoto = oldList.get(oldItemPosition);
         Bundle diff = new Bundle();
-        if(newPhoto.getTitle().equals(oldPhoto.getTitle())) {
+        if(!newPhoto.getTitle().equals(oldPhoto.getTitle())) {
             diff.putString("id", newPhoto.getId());
         }
         if(diff.size() == 0) {
