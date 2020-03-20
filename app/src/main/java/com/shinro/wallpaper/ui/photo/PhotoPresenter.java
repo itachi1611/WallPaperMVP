@@ -83,6 +83,36 @@ public class PhotoPresenter extends Constants implements PhotoContract.Presenter
                 });
     }
 
+    @Override
+    public void onLoadMoreFavouriteImageList(String p) {
+        ApiUtil.getFavoritesImageList(false, null)
+                .onFetchFlickrFavoritesImageList(FLICKR_METHOD, FLICKR_API_KEY, FLICKR_USER_ID, null, null, FLICKR_OPTION, FLICKR_PER_PAGE, p, FLICKR_FORMAT, FLICKR_NO_JSON_CALLBACK)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<FlickrFavorites>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(FlickrFavorites flickrFavorites) {
+                        Log.d("NamNT", String.valueOf(flickrFavorites.getPhotos().getPhoto().size()));
+                        mView.onLoadMoreFavouriteImageListSuccess(onConvertData(flickrFavorites));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.onLoadMoreFavouriteImageListError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     private List<Photo> onConvertData(FlickrFavorites favorites) {
         List<Photo> photos = new ArrayList<>();
         if(favorites != null) {

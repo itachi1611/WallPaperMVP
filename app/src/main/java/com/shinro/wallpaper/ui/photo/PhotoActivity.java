@@ -87,6 +87,10 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         mPresenter.onRefreshFavouriteImageList(String.valueOf(p));
     }
 
+    private void onLoadMoreFlickrImageData(int p) {
+        mPresenter.onLoadMoreFavouriteImageList(String.valueOf(p));
+    }
+
     private void onSwipeRefreshData() {
         swipeContainer.setOnRefreshListener(() -> {
             page = 1;
@@ -100,9 +104,9 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         rvImageList.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //page++;
+                page++;
                 onShowLoading();
-                onFetchFlickrImageData(page++);
+                onLoadMoreFlickrImageData(page++);
             }
         });
     }
@@ -112,7 +116,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
             adapter = null;
         }
         if(adapter == null) {
-            adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos, PhotoActivity.this);
+            adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos);
             rvImageList.getRecycledViewPool().clear();
             rvImageList.setAdapter(adapter);
         }
@@ -132,10 +136,6 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
             photos.addAll(mPhotos);
         }
         onLoadDataToRecyclerView();
-//        onHideLoading();
-//        photos.addAll(mPhotos);
-//        swipeContainer.setRefreshing(false);
-//        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -151,11 +151,27 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         if(mPhotos != null) {
             photos.addAll(mPhotos);
         }
-        onLoadDataToRecyclerView();
+        //onLoadDataToRecyclerView();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onRefreshFavouriteImageListError(Throwable e) {
+        onHideLoading();
+        AppLogger.e(e);
+    }
+
+    @Override
+    public void onLoadMoreFavouriteImageListSuccess(List<Photo> mPhotos) {
+        onHideLoading();
+        if(mPhotos != null) {
+            photos.addAll(mPhotos);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadMoreFavouriteImageListError(Throwable e) {
         onHideLoading();
         AppLogger.e(e);
     }

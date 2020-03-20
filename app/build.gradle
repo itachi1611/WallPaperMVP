@@ -121,4 +121,10 @@ dependencies {
     //Spot Light
     implementation "com.github.takusemba:spotlight:$rootProject.spot_light_version"
 
+    //Custom Floating Action Button
+    implementation "com.getbase:floatingactionbutton:$rootProject.floating_action_button"
+
+    //Pinch to Zoom
+    implementation "com.bogdwellers:pinchtozoom:$rootProject.pinch_to_zoom"
+
 }

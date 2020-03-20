@@ -50,4 +50,6 @@ ext {
     about_version = "1.2.5"
     fancy_toast_version = "0.1.6"
     spot_light_version = "2.0.1"
+    floating_action_button = "1.10.1"
+    pinch_to_zoom = "0.1"
 }
