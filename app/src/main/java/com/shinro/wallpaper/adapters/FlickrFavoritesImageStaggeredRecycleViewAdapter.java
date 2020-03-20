@@ -2,7 +2,6 @@ package com.shinro.wallpaper.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Priority;
@@ -19,7 +17,6 @@ import com.shinro.wallpaper.R;
 import com.shinro.wallpaper.holders.FlickrFavoritesImageViewHolder;
 import com.shinro.wallpaper.models.Photo;
 import com.shinro.wallpaper.ui.photo_detail.PhotoDetailActivity;
-import com.shinro.wallpaper.ultis.DiffCallBack.FlickrFavoriteDiffCallBack;
 import com.shinro.wallpaper.ultis.ImageViewUtils;
 
 import java.util.List;
@@ -50,7 +47,9 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull FlickrFavoritesImageViewHolder holder, int position) {
         Photo photo = mImageLists.get(position);
+        //holder.onBindData(photo);
         String image_url;
+        //Context context = itemView.getContext();
 
         if(photo.getUrlO() != null) {
             image_url = photo.getUrlO();
@@ -69,26 +68,8 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
                 mContext.startActivity(intent);
             }
         });
-
         setDiffRatio(photo, holder.constrainContainer, holder.imageViewWidget);
     }
-
-//    @Override
-//    public void onBindViewHolder(@NonNull FlickrFavoritesImageViewHolder holder, int position, @NonNull List<Object> payloads) {
-//        String id;
-//
-//        if(payloads.isEmpty()) {
-//            super.onBindViewHolder(holder, position, payloads);
-//            return;
-//        } else {
-//            Bundle bundle = (Bundle) payloads.get(0);
-//            for(String k : bundle.keySet()) {
-//                if(k.equals("id")) {
-//                    id = bundle.getString(k);
-//                }
-//            }
-//        }
-//    }
 
     @Override
     public int getItemCount() {
@@ -115,11 +96,9 @@ public class FlickrFavoritesImageStaggeredRecycleViewAdapter extends RecyclerVie
     }
 
     public void setFlickrFavoritesImageList(List<Photo> photos) {
-        FlickrFavoriteDiffCallBack diffCallBack = new FlickrFavoriteDiffCallBack(photos, mImageLists);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallBack);
-        diffResult.dispatchUpdatesTo(this);
-        mImageLists.clear();
-        mImageLists.addAll(photos);
+        this.mImageLists.clear();
+        this.mImageLists = photos;
+        notifyDataSetChanged();
     }
 
 }

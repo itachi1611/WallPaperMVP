@@ -1,6 +1,7 @@
 package com.shinro.wallpaper.api;
 
 import com.shinro.wallpaper.bases.MainApplication;
+import com.shinro.wallpaper.ultis.AppLogger;
 import com.shinro.wallpaper.ultis.Constants;
 
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ public class RetrofitClient extends Constants {
             } else {
                 Request.Builder builder = original.newBuilder().method(original.method(), original.body());
                 Request request = builder.build();
+                AppLogger.i("API %s\t%s", request.method(), request.url().url());
                 return chain.proceed(request);
             }
         });

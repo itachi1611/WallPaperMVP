@@ -1,11 +1,11 @@
 package com.shinro.wallpaper.ui.photo;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -14,7 +14,6 @@ import com.shinro.wallpaper.adapters.FlickrFavoritesImageStaggeredRecycleViewAda
 import com.shinro.wallpaper.bases.BaseActivity;
 import com.shinro.wallpaper.models.Photo;
 import com.shinro.wallpaper.ultis.AppLogger;
-import com.shinro.wallpaper.ultis.RecyclerViewUtils.CustomSnapHelper;
 import com.shinro.wallpaper.ultis.RecyclerViewUtils.EndlessRecyclerViewScrollListener;
 
 import java.util.ArrayList;
@@ -57,11 +56,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         initRecyclerView();
 
         //Fetch image data from Flickr API
-        /**
-         *  0 -> Load new data
-         *  1 -> Load more data
-         */
-        onFetchFlickrImageData(page, 0);
+        onFetchFlickrImageData(page);
 
         //Handle swipe action to refresh data
         onSwipeRefreshData();
@@ -80,22 +75,24 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         layoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, 1);
         rvImageList.setLayoutManager(layoutManager);
         rvImageList.setItemAnimator(new DefaultItemAnimator());
-        //rvImageList.addItemDecoration(new DividerItemDecoration(PhotoActivity.this, DividerItemDecoration.HORIZONTAL));
+        rvImageList.addItemDecoration(new DividerItemDecoration(PhotoActivity.this, DividerItemDecoration.VERTICAL));
         rvImageList.setHasFixedSize(true);
-        SnapHelper snapHelper = new CustomSnapHelper();
-        snapHelper.attachToRecyclerView(rvImageList);
     }
 
-    private void onFetchFlickrImageData(int p, int action) {
-        mPresenter.onFetchFavouriteImageList(p, action);
+    private void onFetchFlickrImageData(int p) {
+        mPresenter.onFetchFavouriteImageList(String.valueOf(p));
+    }
+
+    private void onRefreshFlickrImageData(int p) {
+        mPresenter.onRefreshFavouriteImageList(String.valueOf(p));
     }
 
     private void onSwipeRefreshData() {
         swipeContainer.setOnRefreshListener(() -> {
-            PhotoActivity.this.page = 1;
-            photos.clear();
-            onFetchFlickrImageData(PhotoActivity.this.page, 1);
-            onScrollToLoadMore();
+            page = 1;
+            onRefreshFlickrImageData(page);
+            handleSwipeRefreshAction();
+            //onScrollToLoadMore();
         });
     }
 
@@ -103,36 +100,62 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         rvImageList.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                PhotoActivity.this.page++;
+                //page++;
                 onShowLoading();
-                onFetchFlickrImageData(PhotoActivity.this.page++, 1);
+                onFetchFlickrImageData(page++);
             }
         });
     }
 
     private void onLoadDataToRecyclerView() {
-        adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos, PhotoActivity.this);
-        rvImageList.setAdapter(adapter);
+        if(adapter != null ) {
+            adapter = null;
+        }
+        if(adapter == null) {
+            adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos, PhotoActivity.this);
+            rvImageList.getRecycledViewPool().clear();
+            rvImageList.setAdapter(adapter);
+        }
+    }
+
+    private void handleSwipeRefreshAction() {
+        new Handler().postDelayed(() -> {
+            swipeContainer.setRefreshing(false);
+        }, 150);
     }
 
     @Override
-    public void onFetchFavouriteImageListSuccess(List<Photo> mPhotos, int action) {
-        if(action == 0) {
-            onHideLoading();
+    public void onFetchFavouriteImageListSuccess(List<Photo> mPhotos) {
+        onHideLoading();
+        photos.clear();
+        if(mPhotos != null) {
             photos.addAll(mPhotos);
-            swipeContainer.setRefreshing(false);
-            onLoadDataToRecyclerView();
-        } else if(action == 1) {
-            onHideLoading();
-            photos.addAll(mPhotos);
-            swipeContainer.setRefreshing(false);
-            rvImageList.getRecycledViewPool().clear();
-            adapter.notifyDataSetChanged();
         }
+        onLoadDataToRecyclerView();
+//        onHideLoading();
+//        photos.addAll(mPhotos);
+//        swipeContainer.setRefreshing(false);
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onFetchFavouriteImageListError(Throwable e) {
+        onHideLoading();
+        AppLogger.e(e);
+    }
+
+    @Override
+    public void onRefreshFavouriteImageListSuccess(List<Photo> mPhotos) {
+        onHideLoading();
+        photos.clear();
+        if(mPhotos != null) {
+            photos.addAll(mPhotos);
+        }
+        onLoadDataToRecyclerView();
+    }
+
+    @Override
+    public void onRefreshFavouriteImageListError(Throwable e) {
         onHideLoading();
         AppLogger.e(e);
     }

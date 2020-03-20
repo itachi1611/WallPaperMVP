@@ -24,9 +24,9 @@ public class PhotoPresenter extends Constants implements PhotoContract.Presenter
     }
 
     @Override
-    public void onFetchFavouriteImageList(int p, int action) {
+    public void onFetchFavouriteImageList(String p) {
         ApiUtil.getFavoritesImageList(false, null)
-                .onFetchFlickrFavoritesImageList(FLICKR_METHOD, FLICKR_API_KEY, FLICKR_USER_ID, null, null, FLICKR_OPTION, FLICKR_PER_PAGE, String.valueOf(p), FLICKR_FORMAT, FLICKR_NO_JSON_CALLBACK)
+                .onFetchFlickrFavoritesImageList(FLICKR_METHOD, FLICKR_API_KEY, FLICKR_USER_ID, null, null, FLICKR_OPTION, FLICKR_PER_PAGE, p, FLICKR_FORMAT, FLICKR_NO_JSON_CALLBACK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<FlickrFavorites>() {
@@ -38,12 +38,42 @@ public class PhotoPresenter extends Constants implements PhotoContract.Presenter
                     @Override
                     public void onNext(FlickrFavorites flickrFavorites) {
                         Log.d("NamNT", String.valueOf(flickrFavorites.getPhotos().getPhoto().size()));
-                        mView.onFetchFavouriteImageListSuccess(onConvertData(flickrFavorites), action);
+                        mView.onFetchFavouriteImageListSuccess(onConvertData(flickrFavorites));
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.onFetchFavouriteImageListError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void onRefreshFavouriteImageList(String p) {
+        ApiUtil.getFavoritesImageList(false, null)
+                .onFetchFlickrFavoritesImageList(FLICKR_METHOD, FLICKR_API_KEY, FLICKR_USER_ID, null, null, FLICKR_OPTION, FLICKR_PER_PAGE, p, FLICKR_FORMAT, FLICKR_NO_JSON_CALLBACK)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<FlickrFavorites>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(FlickrFavorites flickrFavorites) {
+                        Log.d("NamNT", String.valueOf(flickrFavorites.getPhotos().getPhoto().size()));
+                        mView.onRefreshFavouriteImageListSuccess(onConvertData(flickrFavorites));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.onRefreshFavouriteImageListError(e);
                     }
 
                     @Override

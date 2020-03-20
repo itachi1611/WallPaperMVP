@@ -7,12 +7,15 @@ import java.util.List;
 public interface PhotoContract {
 
     interface View {
-        void onFetchFavouriteImageListSuccess(List<Photo> mPhotos, int action);
+        void onFetchFavouriteImageListSuccess(List<Photo> mPhotos);
         void onFetchFavouriteImageListError(Throwable e);
+        void onRefreshFavouriteImageListSuccess(List<Photo> mPhotos);
+        void onRefreshFavouriteImageListError(Throwable e);
     }
 
     interface Presenter {
-        void onFetchFavouriteImageList(int p, int action);
+        void onFetchFavouriteImageList(String p);
+        void onRefreshFavouriteImageList(String p);
     }
 
 }
