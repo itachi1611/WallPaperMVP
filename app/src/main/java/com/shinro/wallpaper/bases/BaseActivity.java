@@ -2,6 +2,7 @@ package com.shinro.wallpaper.bases;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -71,12 +72,15 @@ public class BaseActivity extends AppCompatActivity {
         }else{
             View decorView = getWindow().getDecorView();
             // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(uiOptions);
             //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
             supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
             getSupportActionBar().hide();
         }
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        }
     }
 
     /**

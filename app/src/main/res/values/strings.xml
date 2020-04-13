@@ -12,4 +12,8 @@
     <string name="progress_dialog_title">Waiting...</string>
     <string name="progress_dialog_message">Loading image from network !</string>
 
+    <!--AboutFragment-->
+    <string name="copy_right">Copyrights © %1$d</string>
+    <string name="about_description">Welcome to use our application !</string>
+
 </resources>

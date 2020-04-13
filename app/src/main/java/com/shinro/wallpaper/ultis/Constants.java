@@ -54,4 +54,7 @@ public class Constants {
         }
     }
 
+    //Permissions
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 999;
+
 }
