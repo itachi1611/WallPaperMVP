@@ -15,6 +15,13 @@ public class ListViewFragment extends BaseFragment implements ListViewContract.V
 
     private ListViewContract.Presenter mPresenter = new ListViewPresenter(this);   // Presenter
 
+    public ListViewFragment() {}
+
+    public static ListViewFragment newInstance() {
+        ListViewFragment fragment = new ListViewFragment();
+        return fragment;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //TODO: Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_list, container, false);

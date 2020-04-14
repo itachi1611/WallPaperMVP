@@ -8,16 +8,10 @@
     android:background="@color/gray_overlay"
     tools:context=".ui.photo.PhotoActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
+        android:id="@+id/photoContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/photoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

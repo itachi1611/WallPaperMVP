@@ -2,7 +2,6 @@ package com.shinro.wallpaper.bases;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -11,9 +10,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.shinro.wallpaper.ultis.ProgressDialogUtils;
@@ -44,10 +45,10 @@ public class BaseActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        return gestureDetector.onTouchEvent(event);
+//    }
 
     @Override
     protected void onPause() {
@@ -84,17 +85,44 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Load fragment to container
      *
-     * @param containerId R.id.
-     * @param fragment fragment
+     * @param containerId
+     * @param fragment
      */
-    protected void loadFragmentToContainer(int containerId, Fragment fragment) {
+    protected void loadFragmentToContainer(int containerId, @NonNull Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(containerId, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    /**
+     * replace or add fragment to the container
+     *
+     * @param fragment pass android.support.v4.app.Fragment
+     * @param bundle pass your extra bundle if any
+     * @param popBackStack if true it will clear back stack
+     * @param findInStack if true it will load old fragment if found
+     */
+    public void loadFragmentToContainer(int containerId, Fragment fragment, @Nullable Bundle bundle, boolean popBackStack, boolean findInStack) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        String tag = fragment.getClass().getName();
+        Fragment parentFragment;
+        if (findInStack && fm.findFragmentByTag(tag) != null) {
+            parentFragment = fm.findFragmentByTag(tag);
+        } else {
+            parentFragment = fragment;
+        }
+        if (popBackStack) {
+            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        } else {
+            ft.addToBackStack(parentFragment.getClass().getName() + "");
+        }
+        ft.replace(containerId, parentFragment, tag);
+        ft.commit();
+        fm.executePendingTransactions();
     }
 
     /**
@@ -117,6 +145,21 @@ public class BaseActivity extends AppCompatActivity {
         String backStateName = fragment.getClass().getName();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(containerId, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.addToBackStack(backStateName);
+        transaction.commit();
+    }
+
+    /**
+     *
+     * @param containerId
+     * @param fragment
+     * @param tag
+     */
+    protected void addFragment(int containerId, Fragment fragment, String tag) {
+        String backStateName = fragment.getClass().getName();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(containerId, fragment, tag).hide(fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.addToBackStack(backStateName);
         transaction.commit();

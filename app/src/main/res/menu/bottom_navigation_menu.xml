@@ -13,5 +13,5 @@
     <item
         android:id="@+id/item_about"
         android:icon="@drawable/ic_about"
-        android:title="Stats" />
+        android:title="About" />
 </menu>

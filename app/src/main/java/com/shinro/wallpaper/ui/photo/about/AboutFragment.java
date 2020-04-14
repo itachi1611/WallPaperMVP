@@ -1,6 +1,5 @@
 package com.shinro.wallpaper.ui.photo.about;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.shinro.wallpaper.R;
 import com.shinro.wallpaper.bases.BaseFragment;
@@ -22,13 +20,29 @@ import mehdi.sakout.aboutpage.Element;
 
 public class AboutFragment extends BaseFragment implements AboutContract.View {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    //private static final String ARG_PARAM1 = "param1";
+    //private static final String ARG_PARAM2 = "param2";
+
     private AboutContract.Presenter mPresenter = new AboutPresenter(this);   // Presenter
 
+    public AboutFragment(){}
+
+    public static AboutFragment newInstance() {
+        AboutFragment fragment = new AboutFragment();
+        //Bundle args = new Bundle();
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
+        //fragment.setArguments(args);
+        return fragment;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        simulateDayNight(/* DAY */ 0);
+//        simulateDayNight(/* DAY */ 0);
         Element adsElement = new Element();
         adsElement.setTitle("Advertise with us");
-        View aboutPage = new AboutPage(getActivity())
+        return new AboutPage(getContext())
                 .isRTL(false)
                 .setDescription(getString(R.string.about_description))
                 .setImage(R.mipmap.ic_launcher_round)
@@ -45,17 +59,11 @@ public class AboutFragment extends BaseFragment implements AboutContract.View {
                 .addGitHub("")
                 .addItem(getCopyRightsElement())
                 .create();
-        return aboutPage;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
-    }
-
-    private void initView() {
-
     }
 
     private Element getCopyRightsElement() {
@@ -70,23 +78,23 @@ public class AboutFragment extends BaseFragment implements AboutContract.View {
         return copyRightsElement;
     }
 
-    private void simulateDayNight(int currentSetting) {
-        final int DAY = 0;
-        final int NIGHT = 1;
-        final int FOLLOW_SYSTEM = 3;
-
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentSetting == DAY && currentNightMode != Configuration.UI_MODE_NIGHT_NO) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (currentSetting == NIGHT && currentNightMode != Configuration.UI_MODE_NIGHT_YES) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES);
-        } else if (currentSetting == FOLLOW_SYSTEM) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        }
-    }
+//    private void simulateDayNight(int currentSetting) {
+//        final int DAY = 0;
+//        final int NIGHT = 1;
+//        final int FOLLOW_SYSTEM = 3;
+//
+//        int currentNightMode = getResources().getConfiguration().uiMode
+//                & Configuration.UI_MODE_NIGHT_MASK;
+//        if (currentSetting == DAY && currentNightMode != Configuration.UI_MODE_NIGHT_NO) {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_NO);
+//        } else if (currentSetting == NIGHT && currentNightMode != Configuration.UI_MODE_NIGHT_YES) {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_YES);
+//        } else if (currentSetting == FOLLOW_SYSTEM) {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+//        }
+//    }
 
 }

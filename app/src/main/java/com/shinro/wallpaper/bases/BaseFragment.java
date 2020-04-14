@@ -1,8 +1,10 @@
 package com.shinro.wallpaper.bases;
 
 import android.app.ProgressDialog;
+import android.os.Bundle;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,10 +18,18 @@ public class BaseFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         disposable.dispose();
     }
+
+
 
     /**
      * Load fragment to container

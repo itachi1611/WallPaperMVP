@@ -3,6 +3,7 @@ package com.shinro.wallpaper.ui.photo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shinro.wallpaper.R;
@@ -29,40 +30,47 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View { 
         super.onCreate(savedInstanceState);
         //Hide status bar
         hideStatusBar();
+
+        //Check last state
+        if(savedInstanceState != null) {
+
+        }
+
         setContentView(R.layout.activity_photo);  //TODO: create the layout and add it here
 
         initView();
+
+        navigationView.setOnNavigationItemSelectedListener(navListener);
 
         initFirstFragment();
     }
 
     private void initView() {
         unbinder = ButterKnife.bind(this);
-        navigationView.setOnNavigationItemSelectedListener(navListener);
     }
 
     private void initFirstFragment() {
-        Fragment fragment = new GridViewFragment();
-        loadFragmentToContainer(R.id.photoContainer, fragment);
+        Fragment fragment = GridViewFragment.newInstance();
+        loadFragmentToContainer(R.id.photoContainer, fragment, null, true, true);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = menuItem -> {
-        Fragment fragment = null;
+        Fragment fragment;
         switch (menuItem.getItemId()) {
             case R.id.item_grid:
-                fragment = new GridViewFragment();
-                break;
+                fragment = GridViewFragment.newInstance();
+                loadFragmentToContainer(R.id.photoContainer, fragment, null, true, true);
+                return true;
             case R.id.item_list:
-                fragment = new ListViewFragment();
-                break;
+                fragment = ListViewFragment.newInstance();
+                loadFragmentToContainer(R.id.photoContainer, fragment, null, true, true);
+                return true;
             case R.id.item_about:
-                fragment = new AboutFragment();
-                break;
-            default:
-                break;
+                fragment = AboutFragment.newInstance();
+                loadFragmentToContainer(R.id.photoContainer, fragment, null, true, true);
+                return true;
         }
-        loadFragmentToContainer(R.id.photoContainer, fragment);
-        return true;
+        return false;
     };
 
     @Override

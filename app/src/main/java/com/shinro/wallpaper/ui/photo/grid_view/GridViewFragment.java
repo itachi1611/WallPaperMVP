@@ -51,6 +51,13 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
 
     private GridViewContract.Presenter mPresenter = new GridViewPresenter(this);   // Presenter
 
+    public GridViewFragment() {}
+
+    public static GridViewFragment newInstance() {
+        GridViewFragment fragment = new GridViewFragment();
+        return fragment;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //TODO: Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_grid, container, false);
@@ -82,7 +89,7 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
         super.onResume();
 
         //Fetch image data from Flickr API
-        //onFetchFlickrImageData(page);
+        onFetchFlickrImageData(page);
     }
 
     private void initRecyclerView() {
@@ -131,7 +138,7 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
         }
         if(adapter == null) {
             adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos);
-            rvImageGrid.getRecycledViewPool().clear();
+            //rvImageGrid.getRecycledViewPool().clear();
             rvImageGrid.setAdapter(adapter);
         }
     }
