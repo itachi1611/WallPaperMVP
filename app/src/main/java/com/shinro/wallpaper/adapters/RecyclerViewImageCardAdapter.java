@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.shinro.wallpaper.R;
 import com.shinro.wallpaper.helpers.FoxyAdapterHelper;
 import com.shinro.wallpaper.holders.RecyclerViewImageCardViewHolder;
 import com.shinro.wallpaper.models.Photo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewImageCardAdapter extends RecyclerView.Adapter<RecyclerViewImageCardViewHolder> {
 
-    private List<Photo> mPhotos = new ArrayList<>();
+    private List<Photo> mPhotos;
     private FoxyAdapterHelper mFoxyAdapterHelper = new FoxyAdapterHelper();
 
     public RecyclerViewImageCardAdapter(List<Photo> list) {
-        mPhotos = list;
+        this.mPhotos = list;
     }
 
     public List<Photo> getPhotoList() {
@@ -41,10 +41,13 @@ public class RecyclerViewImageCardAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewImageCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewImageCardViewHolder holder, final int position) {
         mFoxyAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
-        Photo photo = mPhotos.get(position % mPhotos.size());
-        holder.onBindData(photo);
+        Photo photo = mPhotos.get(position);
+        Glide.with(holder.imageView)
+                .load(photo.getUrlM())
+                .into(holder.imageView);
+//        holder.onBindData(photo);
     }
 
     @Override

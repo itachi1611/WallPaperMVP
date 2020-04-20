@@ -105,12 +105,7 @@ public class FoxyScaleHelper {
         mLastPos = pos;
         mRecyclerView.dispatchOnPageSelected(mLastPos);
         //onScrolledChangedCallback();
-        mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                onScrolledChangedCallback();
-            }
-        });
+        mRecyclerView.post(() -> onScrolledChangedCallback());
     }
 
     public void setFirstItemPos(int firstItemPos) {
@@ -153,7 +148,7 @@ public class FoxyScaleHelper {
     }
 
     public int getCurrentItem() {
-        //return ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition() - 1;
+        //return ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
         return mRecyclerView.getLayoutManager().getPosition(mLinearSnapHelper.findSnapView(mRecyclerView.getLayoutManager()));
     }
 

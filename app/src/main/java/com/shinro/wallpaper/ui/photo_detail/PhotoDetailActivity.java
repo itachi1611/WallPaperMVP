@@ -22,16 +22,9 @@ import butterknife.Unbinder;
 
 public class PhotoDetailActivity extends BaseActivity implements PhotoDetailContract.View, SwipeRefreshLayout.OnRefreshListener { //TODO: DON'T FORGET TO ADD THIS ACTIVITY TO THE MANIFEST FILE!!!
 
-    @BindView(R.id.swipeLayout)
-    FoxySwipeRefreshLayout foxySwipeRefreshLayout;
 
-    @BindView(R.id.rvList)
-    FoxyRecyclerView foxyRecyclerView;
 
-    private List<Photo> mPhotos;
 
-    private FoxyScaleHelper foxyScaleHelper;
-    private RecyclerViewImageCardAdapter adapter;
 
     private Unbinder unbinder;
 
@@ -44,8 +37,6 @@ public class PhotoDetailActivity extends BaseActivity implements PhotoDetailCont
         setContentView(R.layout.activity_detail_photo);  //TODO: create the layout and add it here
 
         initView();
-
-        initRecyclerView();
     }
 
     @Override
@@ -56,29 +47,12 @@ public class PhotoDetailActivity extends BaseActivity implements PhotoDetailCont
 
     private void initView() {
         unbinder = ButterKnife.bind(this);
-
-        mPhotos = new ArrayList<>();
-
-        foxySwipeRefreshLayout.setOnRefreshListener(this);
-
-        foxySwipeRefreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     private void initData() {
     }
 
-    private void initRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        foxyRecyclerView.setLayoutManager(layoutManager);
-        foxyRecyclerView.setHasFixedSize(true);
-        foxyScaleHelper = new FoxyScaleHelper();
-        foxyScaleHelper.setFirstItemPos(1000);
-        foxyScaleHelper.attachToRecyclerView(foxyRecyclerView);
-    }
+
 
     @Override
     protected void onDestroy() {
