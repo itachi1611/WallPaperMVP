@@ -1,10 +1,10 @@
-package com.shinro.wallpaper.ui.photo.grid_view;
+package com.shinro.wallpaper.ui.photo.photo_grid;
 
 import com.shinro.wallpaper.models.Photo;
 
 import java.util.List;
 
-public interface GridViewContract {
+public interface PhotoGridContract {
 
     interface View {
         void onFetchFavouriteImageListSuccess(List<Photo> mPhotos);

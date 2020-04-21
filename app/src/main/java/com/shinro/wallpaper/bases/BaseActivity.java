@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.shinro.wallpaper.ultis.ProgressDialogUtils;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -30,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //gestureDetector = new GestureDetector(new SwipeDetector(this));
     }
 
@@ -73,7 +73,7 @@ public class BaseActivity extends AppCompatActivity {
         }else{
             View decorView = getWindow().getDecorView();
             // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
             decorView.setSystemUiVisibility(uiOptions);
             //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
             supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);

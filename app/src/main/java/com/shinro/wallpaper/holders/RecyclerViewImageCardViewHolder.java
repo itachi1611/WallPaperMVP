@@ -1,39 +1,23 @@
 package com.shinro.wallpaper.holders;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Priority;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.shinro.wallpaper.R;
 import com.shinro.wallpaper.models.Photo;
 import com.shinro.wallpaper.ultis.ImageViewUtils;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.shinro.wallpaper.ultis.Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
 
 public class RecyclerViewImageCardViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.ivItem)
     public ImageView imageView;
-
-    @BindView(R.id.multiple_actions)
-    FloatingActionsMenu multipleActions;
 
     public View itemView;
 
@@ -41,7 +25,7 @@ public class RecyclerViewImageCardViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
 
-    private String [] link = new String[10];
+//    private String [] link = new String[10];
 
     public RecyclerViewImageCardViewHolder(@NonNull View itemView) {
         super(itemView);

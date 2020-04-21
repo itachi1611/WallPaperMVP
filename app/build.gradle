@@ -90,7 +90,7 @@ dependencies {
 
     //Butter Knife
     implementation "com.jakewharton:butterknife:$rootProject.butter_knife_version"
-    annotationProcessor  "com.jakewharton:butterknife-compiler:$rootProject.butter_knife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butter_knife_version"
 
     //Navigation
     // Java language implementation

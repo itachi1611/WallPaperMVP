@@ -1,4 +1,4 @@
-package com.shinro.wallpaper.ui.photo.grid_view;
+package com.shinro.wallpaper.ui.photo.photo_grid;
 
 import android.util.Log;
 
@@ -15,11 +15,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class GridViewPresenter extends Constants implements GridViewContract.Presenter {
+public class PhotoGridPresenter extends Constants implements PhotoGridContract.Presenter {
 
-    private GridViewContract.View mView;
+    private PhotoGridContract.View mView;
 
-    public GridViewPresenter(GridViewContract.View mView) {
+    public PhotoGridPresenter(PhotoGridContract.View mView) {
         this.mView = mView;
     }
 

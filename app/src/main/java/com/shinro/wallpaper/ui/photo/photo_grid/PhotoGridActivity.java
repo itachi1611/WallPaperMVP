@@ -1,23 +1,24 @@
-package com.shinro.wallpaper.ui.photo.grid_view;
+package com.shinro.wallpaper.ui.photo.photo_grid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shinro.wallpaper.R;
 import com.shinro.wallpaper.adapters.FlickrFavoritesImageStaggeredRecycleViewAdapter;
-import com.shinro.wallpaper.bases.BaseFragment;
+import com.shinro.wallpaper.bases.BaseActivity;
 import com.shinro.wallpaper.models.Photo;
+import com.shinro.wallpaper.ui.photo.about.AboutActivity;
+import com.shinro.wallpaper.ui.photo.photo_card.PhotoCardActivity;
 import com.shinro.wallpaper.ultis.AppLogger;
 import com.shinro.wallpaper.ultis.RecyclerViewUtils.EndlessRecyclerViewScrollListener;
 
@@ -30,13 +31,16 @@ import butterknife.Unbinder;
 
 import static com.shinro.wallpaper.ultis.Constants.NUM_COLUMNS;
 
-public class GridViewFragment extends BaseFragment implements GridViewContract.View {
+public class PhotoGridActivity extends BaseActivity implements PhotoGridContract.View { //TODO: DON'T FORGET TO ADD THIS ACTIVITY TO THE MANIFEST FILE!!!
 
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
 
     @BindView(R.id.rvImageGrid)
     RecyclerView rvImageGrid;
+
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView navigationView;
 
     private FlickrFavoritesImageStaggeredRecycleViewAdapter adapter;
     private StaggeredGridLayoutManager layoutManager;
@@ -49,25 +53,19 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
     //Declare list photo
     private List<Photo> photos;
 
-    private GridViewContract.Presenter mPresenter = new GridViewPresenter(this);   // Presenter
-
-    public GridViewFragment() {}
-
-    public static GridViewFragment newInstance() {
-        GridViewFragment fragment = new GridViewFragment();
-        return fragment;
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //TODO: Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_grid, container, false);
-    }
+    private PhotoGridContract.Presenter mPresenter = new PhotoGridPresenter(this);    // Presenter
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Hide status bar
+        hideStatusBar();
 
-        initView(view);
+        setContentView(R.layout.activity_grid_photo);  //TODO: create the layout and add it here
+
+        initView();
+
+        navigationView.setOnNavigationItemSelectedListener(navListener);
 
         //Init RecyclerView
         initRecyclerView();
@@ -79,15 +77,54 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
         onScrollToLoadMore();
     }
 
-    private void initView(@NonNull View view) {
-        unbinder = ButterKnife.bind(this, view);
+    private void initView() {
+        unbinder = ButterKnife.bind(this);
         photos = new ArrayList<>();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
+        updateBottomNavigationBarState();
+    }
 
+    private void updateBottomNavigationBarState(){
+        int actionId = R.id.item_grid;
+        selectBottomNavigationBarItem(actionId);
+    }
+
+    void selectBottomNavigationBarItem(int itemId) {
+        MenuItem item = navigationView.getMenu().findItem(itemId);
+        item.setChecked(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = menuItem -> {
+        navigationView.postDelayed(() -> {
+            switch (menuItem.getItemId()) {
+                case R.id.item_grid:
+                    navigateActivity(PhotoGridActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    break;
+                case R.id.item_list:
+                    navigateActivity(PhotoCardActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    break;
+                case R.id.item_about:
+                    navigateActivity(AboutActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    break;
+            }
+            finish();
+        }, 200);
+        return true;
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //Fetch image data from Flickr API
         onFetchFlickrImageData(page);
     }
@@ -96,7 +133,7 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
         layoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, 1);
         rvImageGrid.setLayoutManager(layoutManager);
         rvImageGrid.setItemAnimator(new DefaultItemAnimator());
-        rvImageGrid.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        rvImageGrid.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvImageGrid.setHasFixedSize(true);
     }
 
@@ -198,7 +235,7 @@ public class GridViewFragment extends BaseFragment implements GridViewContract.V
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }

@@ -44,10 +44,7 @@ public class RecyclerViewImageCardAdapter extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(@NonNull RecyclerViewImageCardViewHolder holder, final int position) {
         mFoxyAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
         Photo photo = mPhotos.get(position);
-        Glide.with(holder.imageView)
-                .load(photo.getUrlM())
-                .into(holder.imageView);
-//        holder.onBindData(photo);
+        holder.onBindData(photo);
     }
 
     @Override

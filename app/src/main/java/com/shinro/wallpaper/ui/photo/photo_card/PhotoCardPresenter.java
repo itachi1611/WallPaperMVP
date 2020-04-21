@@ -1,4 +1,4 @@
-package com.shinro.wallpaper.ui.photo.list_view;
+package com.shinro.wallpaper.ui.photo.photo_card;
 
 import android.util.Log;
 
@@ -15,11 +15,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListViewPresenter extends Constants implements ListViewContract.Presenter {
+public class PhotoCardPresenter extends Constants implements PhotoCardContract.Presenter {
 
-    private ListViewContract.View mView;
+    private PhotoCardContract.View mView;
 
-    public ListViewPresenter(ListViewContract.View mView) {
+    public PhotoCardPresenter(PhotoCardContract.View mView) {
         this.mView = mView;
     }
 

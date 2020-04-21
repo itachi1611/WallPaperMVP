@@ -1,10 +1,10 @@
-package com.shinro.wallpaper.ui.photo.list_view;
+package com.shinro.wallpaper.ui.photo.photo_card;
 
 import com.shinro.wallpaper.models.Photo;
 
 import java.util.List;
 
-public interface ListViewContract {
+public interface PhotoCardContract {
 
     interface View {
         void onFetchFavouriteImageListSuccess(List<Photo> mPhotos);
