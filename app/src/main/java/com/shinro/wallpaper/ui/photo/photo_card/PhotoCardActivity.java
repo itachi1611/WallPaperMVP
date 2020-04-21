@@ -121,25 +121,21 @@ public class PhotoCardActivity extends BaseActivity implements PhotoCardContract
                     navigateActivity(PhotoGridActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     break;
                 case R.id.item_list:
-                    navigateActivity(PhotoCardActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    //navigateActivity(PhotoCardActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     break;
                 case R.id.item_about:
                     navigateActivity(AboutActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     break;
             }
-            finish();
         }, 200);
-        return true;
+        return false;
     };
 
     @Override
     protected void onResume() {
         super.onResume();
         //Fetch image data from Flickr API
-        if(!( this instanceof PhotoCardActivity)) {
-            onFetchFlickrImageData(page);
-        }
-
+        onFetchFlickrImageData(page);
     }
 
     private void initRecyclerView() {

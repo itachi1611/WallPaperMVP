@@ -3,7 +3,6 @@ package com.shinro.wallpaper.ui.photo.photo_grid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -108,7 +107,7 @@ public class PhotoGridActivity extends BaseActivity implements PhotoGridContract
         navigationView.postDelayed(() -> {
             switch (menuItem.getItemId()) {
                 case R.id.item_grid:
-                    navigateActivity(PhotoGridActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //navigateActivity(PhotoGridActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
                 case R.id.item_list:
                     navigateActivity(PhotoCardActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -117,9 +116,8 @@ public class PhotoGridActivity extends BaseActivity implements PhotoGridContract
                     navigateActivity(AboutActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
             }
-            finish();
         }, 200);
-        return true;
+        return false;
     };
 
     @Override
@@ -175,7 +173,7 @@ public class PhotoGridActivity extends BaseActivity implements PhotoGridContract
         }
         if(adapter == null) {
             adapter = new FlickrFavoritesImageStaggeredRecycleViewAdapter(photos);
-            //rvImageGrid.getRecycledViewPool().clear();
+            rvImageGrid.getRecycledViewPool().clear();
             rvImageGrid.setAdapter(adapter);
         }
     }

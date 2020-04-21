@@ -109,12 +109,11 @@ public class AboutActivity extends BaseActivity implements AboutContract.View {
                     navigateActivity(PhotoCardActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
                 case R.id.item_about:
-                    navigateActivity(AboutActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //navigateActivity(AboutActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
                 default:
                     break;
             }
-            finish();
         }, 200);
         return false;
     };
